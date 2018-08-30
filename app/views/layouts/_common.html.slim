@@ -1,0 +1,14 @@
+.panel.panel-default
+  .panel-heading 
+    = link_to "Home", operator_home_index_path, class: "btn #{params[:id].nil? ? 'btn-default' : ''}"
+    - @campaigns.each do |campaign|
+      |&nbsp;&nbsp;&nbsp;
+      = link_to campaign.name, campaign_operator_home_index_path(campaign), class: "btn #{campaign.id.to_s == params[:id] ? 'btn-default' : ''}"
+      - if (campaign.time_start <= Time.now && campaign.time_end > Time.now)
+        = image_tag "https://dyrk.org/divers/recordingIcon.gif", width: 20, style: "margin-left: -23px;"
+  .panel-body
+    = yield
+    = form_tag import_operator_home_index_path, :multipart=>true do
+      .form-group
+        = file_field_tag :kyc_list, class: "form-control"
+      = submit_tag "Import KYCs", class: "btn btn-primary button-import"

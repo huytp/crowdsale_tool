@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  time_start: 2018-08-02 11:03:29
+  time_end: 2018-08-02 11:03:29
+  mis_amount: 1
+  total_btc: 9.99
+
+two:
+  name: MyString
+  time_start: 2018-08-02 11:03:29
+  time_end: 2018-08-02 11:03:29
+  mis_amount: 1
+  total_btc: 9.99

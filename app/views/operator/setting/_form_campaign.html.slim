@@ -1,0 +1,14 @@
+= form_for @campaign, url: url do |f|
+  .form-group.col-sm-3
+    = f.label "Campaign name"
+    = f.text_field :name, class: "form-control"
+  .form-group.col-sm-3
+    = f.label "BTC amount from"
+    = f.number_field :start_btc, step: "any", class: "form-control"
+  .form-group.col-sm-3
+    = f.label "BTC amount to"
+    = f.number_field :end_btc, step: "any", class: "form-control"
+  .form-group.col-sm-3
+    = f.label "BTC to MIS"
+    = f.text_field :btc_to_mis, class: "form-control"
+  = f.submit class: "btn btn-primary"

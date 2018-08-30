@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  address: MyString
+  username: MyString
+  mis_amount: MyString
+  btc_amount: MyString
+
+two:
+  address: MyString
+  username: MyString
+  mis_amount: MyString
+  btc_amount: MyString

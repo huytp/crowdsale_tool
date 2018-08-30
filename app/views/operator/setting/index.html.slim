@@ -1,0 +1,101 @@
+.panel.panel-default
+  .panel-heading Setting
+  .panel-body
+    table.table
+      thead
+        tr
+          th Min confirmation number
+          th Confirmation required
+          th BTC -> USD
+          th Maximum BTC can buy
+          th
+      tbody
+        tr
+          td = @setting.min_confirmation
+          td = @setting.require_confirmation
+          td = @setting.current_rate
+          td = @setting.max_btc
+          th = link_to "Edit", edit_operator_setting_path(@setting)
+  .panel-heading Stats
+  .panel-body
+    table.table
+      thead
+        tr
+          td Block height
+          td Current height
+      tbody
+        tr
+          td = @stat.count
+          td = @stat.last
+  .panel-heading Campaign 1500 BTC
+  .panel-body
+    table.table
+      thead
+        tr 
+          th Name
+          th BTC limited
+          th 1 BTC to MIS rate
+          th Current BTC amount
+          th
+          th
+      tbody
+        - @fixed_campaign.each do |campaign|
+          tr
+            td = campaign.name
+            td = campaign.end_btc
+            td = number_to_currency(campaign.btc_to_mis, precision: 3, unit: "")
+            td = number_to_currency(campaign.current_btc, precision: 3, unit: "")
+            td = link_to "Edit", edit_fixed_campaign_operator_setting_index_path(campaign)
+            td = link_to "Destroy", destroy_fixed_campaign_operator_setting_index_path(campaign), method: :delete, data: { confirm: "Are you sure?" }
+    = link_to "New campaign", new_fixed_campaign_operator_setting_index_path, class: "btn btn-default"
+  .panel-heading Campaign
+  .panel-body
+    table.table
+      thead
+        tr 
+          th ID
+          th Name
+          th Start time
+          th End time
+          th Total MIS release
+          th Total MIS sell
+          th Total BTC
+          th
+          th
+      tbody
+        - total_mis_release, total_btc, total_mis_sell = 0, 0, 0
+
+        - @campaigns.each do |campaign|
+          - total_mis_release += campaign.mis_amount
+          - total_btc += campaign.total_btc
+          - total_mis_sell += campaign.mis_sell
+          tr
+            td = campaign.id
+            td = campaign.name
+            td = campaign.time_start
+            td = campaign.time_end
+            td = number_to_currency(campaign.mis_amount, precision: 0, unit: "")
+            td = number_to_currency(campaign.mis_sell, precision: 0, unit: "")
+            td = campaign.total_btc
+            td = link_to "Edit", edit_campaign_operator_setting_index_path(campaign)
+            td = link_to "Destroy", destroy_campaign_operator_setting_index_path(campaign), method: :delete, data: { confirm: "Are you sure?" }
+      p
+        b Total MIS release:&nbsp;
+        = number_to_currency(TOTAL_TOKEN, precision: 0, unit: "")
+        |&nbsp;&nbsp;|&nbsp;&nbsp;
+        b Total MIS from plaining to sell:&nbsp;
+        = number_to_currency(total_mis_release, precision: 0, unit: "")
+        |&nbsp;&nbsp;|&nbsp;&nbsp;
+        b Total MIS remainder from plaining:&nbsp;
+        = number_to_currency(TOTAL_TOKEN - total_mis_release, precision: 0, unit: "")
+        br
+        b Total MIS sell:&nbsp;
+        = number_to_currency(total_mis_sell, precision: 0, unit: "")
+        |&nbsp;&nbsp;|&nbsp;&nbsp;
+        b Total MIS remainder:&nbsp;
+        = number_to_currency(TOTAL_TOKEN - total_mis_sell, precision: 0, unit: "")
+        br
+        b Total BTC:&nbsp;
+        = number_to_currency(total_btc, unit: "BTC", format: "%n %u", precision: 8)
+    = link_to "New campaign", new_campaign_operator_setting_index_path, class: "btn btn-default"
+

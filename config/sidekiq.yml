@@ -1,0 +1,10 @@
+:logfile: log/sidekiq.log
+:schedule:
+  sync_transactions:
+    every: 1m
+    class: SyncTransactions
+    description: 'Sync transactions from bitcoin fullnode'
+  sync_currency:
+    every: 1m
+    class: SyncCurrency
+    description: 'Sync BTC rate'

@@ -1,0 +1,57 @@
+= link_to "Reload Balance", "#", class: "btn btn-primary button-reload"
+br
+br
+br
+p
+  | Total BTC balance:&nbsp;
+  b = number_to_currency(@total_balance, unit: "BTC", format: "%n %u", precision: 8)
+  |&nbsp;~&nbsp;
+  b = number_to_currency(@total_balance_usd, unit: "USD", format: "%n %u")
+p 
+  | Total MIS release:&nbsp;
+  b = number_to_currency(TOTAL_TOKEN, precision: 0, unit: "")
+p 
+  | Total MIS bought:&nbsp;
+  b = number_to_currency(@total_balance_mis, precision: 0, unit: "")
+p 
+  | 1 MIS = 
+  |&nbsp;
+  = number_to_currency(@total_balance_usd/TOTAL_TOKEN, unit: "USD", format: "%n %u", precision: 10)
+= paginate @kycs_page
+table.table
+  thead
+    tr
+      th Email
+      th BTC Adddress
+      th Miskre address
+      th BTC amount
+      th MIS amount
+      th Transactions
+  tbody
+    - @kycs_page.includes(:transactions).each do |kyc|
+      tr
+        td = kyc.email
+        td = link_to kyc.address, BLOCKCHAIN_ADDRESS_URL + kyc.address, target: "_blank"
+        td = kyc.mis_address
+        td = kyc.btc_amount || 0
+        td = kyc.mis_amount || 0
+        td 
+          - TransactionsService.new.cal_balance(@setting, kyc.transactions).each do |tx|
+            - if tx&.txid
+              = link_to tx.txid, BLOCKCHAIN_TRANSACTION_URL + tx.txid, target: "_blank"
+              |[#{@stat.count - tx.height + 1}]
+              br
+= paginate @kycs_page
+br
+javascript:
+  $(document).ready(function() {
+    $(".button-reload").click(function(event){
+      event.preventDefault();
+      $(".loading").css("display", "block");
+      $("body").css({"margin": 0, "height": "100%", "overflow": "hidden"});
+      $(".main").load(Routes.reload_operator_home_index_path(), function() {
+        $("body").css("overflow", "scroll");
+        $(".loading").css("display", "none");
+      });
+    });
+  });

@@ -1,0 +1,72 @@
+= hidden_field_tag :campaign_id, @campaign.id
+= link_to "Reload Balance", "#", class: "btn btn-primary button-reload"
+|&nbsp;&nbsp;
+= link_to "Export Data", export_campaign_operator_home_index_path(id: @campaign.id, format: :json), class: "btn btn-primary"
+br
+br
+br
+p 
+  h2
+    - if (@campaign.time_start <= Time.now && @campaign.time_end > Time.now)
+        = image_tag "https://dyrk.org/divers/recordingIcon.gif", width: 30, style: "margin-bottom: 7px; margin-right: 5px;"
+    = @campaign.name
+  br
+  b Time start:&nbsp;
+  = @campaign.time_start
+  br
+  b Time finish:&nbsp;
+  = @campaign.time_end
+p
+  | Total BTC balance:&nbsp;
+  b = number_to_currency(@total_balance, unit: "BTC", format: "%n %u", precision: 8)
+  |&nbsp;~&nbsp;
+  b = number_to_currency(@total_balance_usd, unit: "USD", format: "%n %u")
+p 
+  | Total MIS release:&nbsp;
+  b = number_to_currency(@campaign.mis_amount, precision: 0, unit: "")
+p 
+  | Total MIS bought:&nbsp;
+  b = number_to_currency(@total_balance_mis, precision: 0, unit: "")
+p 
+  | 1 MIS = 
+  |&nbsp;
+  = number_to_currency(@total_balance_usd/TOTAL_TOKEN, unit: "USD", format: "%n %u", precision: 10)
+= paginate @kycs_page
+table.table
+  thead
+    tr
+      th Email
+      th BTC Adddress
+      th Miskre address
+      th BTC amount
+      th MIS amount
+      th Transactions
+  tbody
+    - @kycs_page.includes(:transactions).each do |kyc|
+      - btc_amount = @transaction_service.cal_balance_campaign(@setting, kyc.transactions, @campaign).sum(:value).to_f
+      tr
+        td = kyc.email
+        td = link_to kyc.address, BLOCKCHAIN_ADDRESS_URL + kyc.address, target: "_blank"
+        td = kyc.mis_address
+        td = btc_amount
+        td = ((btc_amount/(@total_balance == 0 ? 1 : @total_balance)) * @campaign.mis_amount).to_i
+        td 
+          - @transaction_service.cal_balance_campaign(@setting, kyc.transactions, @campaign).each do |tx|
+            - if tx&.txid
+              = link_to tx.txid, BLOCKCHAIN_TRANSACTION_URL + tx.txid, target: "_blank"
+              |[#{@stat.count - tx.height + 1}]
+              br
+= paginate @kycs_page
+javascript:
+  $(document).ready(function() {
+    campaign_id = $("#campaign_id").val()
+    $(".button-reload").click(function(event){
+      event.preventDefault();
+      $(".loading").css("display", "block");
+      $("body").css({"margin": 0, "height": "100%", "overflow": "hidden"});
+      $(".main").load(Routes.reload_campaign_operator_home_index_path(campaign_id), function() {
+        $("body").css("overflow", "scroll");
+        $(".loading").css("display", "none");
+      });
+    });
+  });

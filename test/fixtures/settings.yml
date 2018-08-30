@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  min_confirmation: 1
+  time_finish: 2018-06-27 16:54:57
+  require_confirmation: false
+  require_time: false
+  current_rate: 9.99
+
+two:
+  min_confirmation: 1
+  time_finish: 2018-06-27 16:54:57
+  require_confirmation: false
+  require_time: false
+  current_rate: 9.99

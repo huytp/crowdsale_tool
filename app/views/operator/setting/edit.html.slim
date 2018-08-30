@@ -1,0 +1,15 @@
+.panel.panel-default
+  .panel-heading Edit Setting
+  .panel-body
+    = form_for @setting, url: operator_setting_path(@setting) do |f|
+      .form-group
+        = f.label "Minimum confirmation required"
+        = f.number_field :min_confirmation, class: "form-control"
+      .form-group
+        = f.label "Confirmation required?"
+        = f.check_box :require_confirmation, class: "btn-block"
+      .form-group
+        = f.label "Maximum BTC can buy"
+        = f.text_field :max_btc, class: "btn-block"
+      = f.submit class: "btn btn-primary"
+= link_to "Back", operator_setting_index_path

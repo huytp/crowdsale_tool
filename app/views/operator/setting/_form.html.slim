@@ -1,0 +1,14 @@
+= form_for @campaign, url: url do |f|
+  .form-group.col-sm-3
+    = f.label "Campaign name"
+    = f.text_field :name, class: "form-control"
+  .form-group.col-sm-3
+    = f.label "Time start campaign"
+    = f.datetime_field :time_start, class: "form-control"
+  .form-group.col-sm-3
+    = f.label "Time finish campaign"
+    = f.datetime_field :time_end, class: "form-control"
+  .form-group.col-sm-3
+    = f.label "MIS amount"
+    = f.number_field :mis_amount, class: "form-control"
+  = f.submit class: "btn btn-primary"

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CrowdsaleCal</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="loading">
+      <div class="ball"></div>
+      <div class="ball1"></div>
+    </div>
+    <div class="container-fluid main">
+      <div class="row">
+        <br>
+        <br>
+        <div class="col-sm-2">
+          <%= link_to "Home", operator_home_index_path, class: "btn btn-success btn-block navbar-static-top" %>
+        </div>
+        <div class="col-sm-2">
+          <%= link_to "Campaign 1500 BTC", operator_fixed_campaign_index_path, class: "btn btn-success btn-block navbar-static-top" %>
+        </div>
+        <div class="col-sm-2">
+          <%= link_to "Setting", operator_setting_index_path, class: "btn btn-success btn-block navbar-static-top" %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <%- if flash[:success] %>
+            <div class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <%= flash[:success] %>
+            </div>
+          <% end %>
+          <%- if params[:controller] == "operator/home" %>
+            <%= render "layouts/common" %>
+          <%- elsif  params[:controller] == "operator/fixed_campaign" %>
+            <%= render "layouts/fixed_campaign" %>
+          <%- else %>
+            <%= yield %>
+          <%- end %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
