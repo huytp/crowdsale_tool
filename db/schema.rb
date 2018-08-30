@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20180820035538) do
 
-  create_table "campaigns", force: :cascade do |t|
+  create_table "campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "time_start"
     t.datetime "time_end"
@@ -23,21 +23,21 @@ ActiveRecord::Schema.define(version: 20180820035538) do
     t.integer "mis_sell"
   end
 
-  create_table "fixed_campaigns", force: :cascade do |t|
+  create_table "fixed_campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
-    t.decimal "start_btc"
-    t.decimal "end_btc"
-    t.decimal "btc_to_mis"
+    t.decimal "start_btc", precision: 10
+    t.decimal "end_btc", precision: 10
+    t.decimal "btc_to_mis", precision: 10
     t.decimal "current_btc", precision: 18, scale: 8, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "histories", force: :cascade do |t|
-    t.integer "kyc_address_id"
-    t.integer "fixed_campaign_id"
-    t.integer "transaction_id"
-    t.decimal "value"
+  create_table "histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "kyc_address_id"
+    t.bigint "fixed_campaign_id"
+    t.bigint "transaction_id"
+    t.decimal "value", precision: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "overload", default: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20180820035538) do
     t.index ["transaction_id"], name: "index_histories_on_transaction_id"
   end
 
-  create_table "kyc_addresses", force: :cascade do |t|
+  create_table "kyc_addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "address"
     t.string "mis_amount"
     t.string "btc_amount"
@@ -56,31 +56,32 @@ ActiveRecord::Schema.define(version: 20180820035538) do
     t.string "email"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "min_confirmation"
     t.boolean "require_confirmation", default: true
     t.decimal "current_rate", precision: 18, scale: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "max_btc", default: "10.0"
+    t.decimal "max_btc", precision: 10, default: "10"
   end
 
-  create_table "stats", force: :cascade do |t|
+  create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "count", default: 1
     t.integer "last", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.decimal "value", precision: 18, scale: 8
     t.string "txid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "kyc_address_id"
+    t.bigint "kyc_address_id"
     t.datetime "tx_created_at"
     t.integer "height"
     t.index ["kyc_address_id"], name: "index_transactions_on_kyc_address_id"
   end
 
+  add_foreign_key "transactions", "kyc_addresses"
 end
