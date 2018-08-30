@@ -1,7 +1,7 @@
 :logfile: log/sidekiq.log
 :schedule:
   sync_transactions:
-    every: 1m
+    every: 5m
     class: SyncTransactions
     description: 'Sync transactions from bitcoin fullnode'
   sync_currency:
