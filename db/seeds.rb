@@ -6,4 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Stat.create(count: 1, last: 1)
+if Stat.all.none?
+  Stat.create(count: 1, last: 1)
+end
+if Setting.all.none?
+  Setting.create(min_confirmation: 1, require_confirmation: true, max_btc: 10)
+end
