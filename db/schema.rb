@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180820035538) do
+ActiveRecord::Schema.define(version: 20180831095344) do
 
   create_table "campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20180820035538) do
 
   create_table "fixed_campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
-    t.decimal "start_btc", precision: 10
-    t.decimal "end_btc", precision: 10
-    t.decimal "btc_to_mis", precision: 10
+    t.decimal "start_btc", precision: 18, scale: 8
+    t.decimal "end_btc", precision: 18, scale: 8
+    t.decimal "btc_to_mis", precision: 18, scale: 8
     t.decimal "current_btc", precision: 18, scale: 8, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
