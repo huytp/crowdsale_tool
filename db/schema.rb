@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180831095344) do
+ActiveRecord::Schema.define(version: 20180831111300) do
 
   create_table "campaigns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20180831095344) do
     t.bigint "kyc_address_id"
     t.bigint "fixed_campaign_id"
     t.bigint "transaction_id"
-    t.decimal "value", precision: 10
+    t.decimal "value", precision: 18, scale: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "overload", default: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20180831095344) do
     t.decimal "current_rate", precision: 18, scale: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "max_btc", precision: 10, default: "10"
+    t.decimal "max_btc", precision: 18, scale: 8, default: "10.0"
   end
 
   create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
