@@ -1,3 +1,7 @@
+= link_to "Export Data", export_campaign_operator_fixed_campaign_index_path(id: @campaign.id, format: :json), class: "btn btn-primary"
+br
+br
+br
 = paginate @histories
 h2 = @campaign.name
 p 

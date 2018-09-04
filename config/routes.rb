@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :fixed_campaign, only: [:index] do
       collection do
         get "campaign/:id", to: "fixed_campaign#campaign", as: :campaign
+        get "export_campaign/:id", to: "fixed_campaign#export_campaign", as: :export_campaign
       end
     end 
     resources :setting, only: [:index, :edit, :update] do 
