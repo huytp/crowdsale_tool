@@ -28,11 +28,12 @@ table.table
   tbody
     - @histories.includes(:kyc_address).each do |history|
       tr
+        - mis_amount = (history.total * @campaign.btc_to_mis).to_i
         td = history.kyc_address.email
         td = link_to history.kyc_address.address, BLOCKCHAIN_ADDRESS_URL + history.kyc_address.address, target: "_blank"
         td = history.kyc_address.mis_address
         td = history.total
-        td = number_to_currency(history.total * @campaign.btc_to_mis, precision: 0, unit: "")
+        td = number_to_currency(mis_amount, precision: 0, unit: "")
         th 
           - history.transaction_ids.split(",").each do |transaction|
             - tx = Transaction.find(transaction).txid
