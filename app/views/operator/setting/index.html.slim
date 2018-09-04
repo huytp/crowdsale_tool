@@ -67,8 +67,8 @@
 
         - @campaigns.each do |campaign|
           - total_mis_release += campaign.mis_amount
-          - total_btc += campaign.total_btc
-          - total_mis_sell += campaign.mis_sell
+          - total_btc += (campaign.total_btc || 0)
+          - total_mis_sell += (campaign.mis_sell || 0)
           tr
             td = campaign.id
             td = campaign.name
