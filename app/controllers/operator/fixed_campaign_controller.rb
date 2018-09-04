@@ -24,6 +24,20 @@ class Operator::FixedCampaignController < ApplicationController
     end
   end
 
+  def export_overload_campaign
+    @histories = History.where(overload: true)
+    data_json = []
+    ActiveRecord::Base.transaction do
+      @histories.each do |history| 
+        data_json.push({email: history.kyc_address.email, btc_address: history.kyc_address.address, amount: history.total})
+      end
+    end
+
+    respond_to do |format|
+      format.json { send_data data_json.to_json, type: :json, disposition: "attachment", filename: "overload-campaign-#{Time.now}.json" }
+    end
+  end
+
   private
   def find_campaign
     @campaign = FixedCampaign.find(params[:id])

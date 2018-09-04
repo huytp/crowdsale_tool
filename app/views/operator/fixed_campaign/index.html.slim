@@ -1,4 +1,7 @@
-/ = paginate @kycs_page
+= link_to "Export Data", export_overload_campaign_operator_fixed_campaign_index_path(format: :json), class: "btn btn-primary"
+br
+br
+= paginate @histories
 h2 Overload transactions
 
 p
@@ -26,4 +29,4 @@ table.table
           - tx = Transaction.find(history.transaction_id).txid
           = link_to tx, BLOCKCHAIN_TRANSACTION_URL + tx.to_s, target: "_blank"
           
-/ = paginate @kycs_page
+= paginate @histories
