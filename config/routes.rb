@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :operator do
+    resources :histories, only: [:index]
     resources :home, only: [:index] do 
       collection do 
         get "amount", to: "home#amount"

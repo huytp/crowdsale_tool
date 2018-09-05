@@ -1,0 +1,27 @@
+.panel.panel-default
+  .panel-heading 
+    | Histories
+  .panel-body
+    = paginate @histories
+    table.table
+      thead
+        tr
+          td Email
+          td BTC address
+          td MIS address
+          td Transaction ID
+          td Campaign ID
+          td Value
+          td Is overload?
+      tbody
+        - @histories.each do |history|
+          - kyc = history.kyc_address
+          tr
+            td = kyc.email
+            td = kyc.address
+            td = kyc.mis_address
+            td = history.transaction_id
+            td = history.fixed_campaign_id
+            td = history.value
+            td = history.overload
+
