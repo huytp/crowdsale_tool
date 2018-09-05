@@ -28,7 +28,7 @@ class Operator::FixedCampaignController < ApplicationController
     histories = @histories.group(:kyc_address_id).select("id, kyc_address_id, sum(value) as total")
     data_json = []
     ActiveRecord::Base.transaction do
-      @histories.each do |history| 
+      histories.each do |history| 
         data_json.push({email: history.kyc_address.email, btc_address: history.kyc_address.address, amount: history.total})
       end
     end
