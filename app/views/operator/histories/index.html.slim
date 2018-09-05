@@ -2,6 +2,11 @@
   .panel-heading 
     | Histories
   .panel-body
+    = form_tag operator_histories_path, method: :get do
+      .form-group
+        = label_tag "Search by email, BTC address, MIS address"
+        = text_field_tag :key, params[:key], placeholder: "Enter email/ BTC address/ MIS address", class: "form-control"
+      = submit_tag "Search", class: "btn btn-success"
     = paginate @histories
     table.table
       thead
