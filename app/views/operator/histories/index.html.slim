@@ -33,5 +33,6 @@
               = history.tran.tx_created_at
             td = history.fixed_campaign_id
             td = history.value
-            td = history.overload
+            td class="#{'text-danger' if history.overload}" 
+              = history.overload
 
