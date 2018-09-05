@@ -3,6 +3,6 @@
     - @campaigns.each do |campaign|
       |&nbsp;&nbsp;&nbsp;
       = link_to "#{campaign.id}. #{campaign.name}", campaign_operator_fixed_campaign_index_path(campaign), class: "btn #{campaign.id.to_s == params[:id] ? 'btn-default' : ''}"
-    = link_to "Overload transaction", operator_fixed_campaign_index_path, class: "btn #{params[:id].nil? ? 'btn-default' : ''}"
+    = link_to "Overload transaction", operator_fixed_campaign_index_path(overload: true, overload_1500: true), class: "btn #{params[:id].nil? ? 'btn-default' : ''}"
   .panel-body
     = yield

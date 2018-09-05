@@ -1,9 +1,9 @@
 class Operator::FixedCampaignController < ApplicationController
   before_action :set_campaigns, only: [:index, :campaign]
   before_action :find_campaign, only: [:export_campaign, :campaign]
+  before_action :find_histories, only: [:index, :export_overload_campaign]
   def index
-    @histories = History.where(overload: true).page(params[:page])
-    @total_btc = History.where(overload: true).sum(:value)
+    @histories_page = @histories.page(params[:page])
   end
 
   def campaign
@@ -25,7 +25,7 @@ class Operator::FixedCampaignController < ApplicationController
   end
 
   def export_overload_campaign
-    @histories = History.where(overload: true)
+    histories = @histories.group(:kyc_address_id).select("id, kyc_address_id, sum(value) as total")
     data_json = []
     ActiveRecord::Base.transaction do
       @histories.each do |history| 
@@ -39,6 +39,18 @@ class Operator::FixedCampaignController < ApplicationController
   end
 
   private
+  def find_histories
+    if params["overload"] && params["overload_1500"]
+      @histories = History.where(overload: true)
+    elsif params["overload"]
+      @histories = History.where.not(overload: false, fixed_campaign_id: OVERLOAD_CAMPAIGN_ID)
+    elsif params["overload_1500"]
+      @histories = History.where(overload: true, fixed_campaign_id: OVERLOAD_CAMPAIGN_ID)
+    else
+      @histories = History.none
+    end
+  end
+
   def find_campaign
     @campaign = FixedCampaign.find(params[:id])
     @histories = @campaign.histories.where(overload: false).group(:kyc_address_id).select("id, kyc_address_id, GROUP_CONCAT(transaction_id) AS transaction_ids, sum(value) as total")

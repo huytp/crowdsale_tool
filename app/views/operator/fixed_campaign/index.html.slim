@@ -1,12 +1,22 @@
-= link_to "Export Data", export_overload_campaign_operator_fixed_campaign_index_path(format: :json), class: "btn btn-primary"
-br
-br
-= paginate @histories
-h2 Overload transactions
+h2
+  |Overload transactions
 
+= form_tag operator_fixed_campaign_index_path, method: :get do
+  .checkbox
+    label
+      = check_box_tag :overload, true, params[:overload]
+      | Transactions that buy more than max BTC limited per person
+  .checkbox
+    label
+      = check_box_tag :overload_1500, true, params[:overload_1500]
+      | Transactions that buy more than 1500 BTC
+  = submit_tag "Search", class: "btn btn-success"
+br
+br
+= paginate @histories_page
 p
   |Total BTC:&nbsp;
-  b = number_to_currency(@total_btc, unit: "BTC", format: "%n %u", precision: 8)
+  b = number_to_currency(@histories.sum(:value), unit: "BTC", format: "%n %u", precision: 8)
 
 table.table
   thead
@@ -18,7 +28,7 @@ table.table
       th Campaign ID
       th Transactions
   tbody
-    - @histories.includes(:kyc_address).each do |history|
+    - @histories_page.includes(:kyc_address).each do |history|
       tr
         td = history.kyc_address.email
         td = link_to history.kyc_address.address, BLOCKCHAIN_ADDRESS_URL + history.kyc_address.address, target: "_blank"
@@ -29,4 +39,5 @@ table.table
           - tx = Transaction.find(history.transaction_id).txid
           = link_to tx, BLOCKCHAIN_TRANSACTION_URL + tx.to_s, target: "_blank"
           
-= paginate @histories
+= paginate @histories_page
+= link_to "Export Data", export_overload_campaign_operator_fixed_campaign_index_path(format: :json, overload: params[:overload], overload_1500: params[:overload_1500]), class: "btn btn-primary"
