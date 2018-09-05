@@ -9,7 +9,7 @@
           td Email
           td BTC address
           td MIS address
-          td Transaction ID
+          td Transaction information
           td Campaign ID
           td Value
           td Is overload?
@@ -20,7 +20,17 @@
             td = kyc.email
             td = kyc.address
             td = kyc.mis_address
-            td = history.transaction_id
+            td 
+              |Transaction ID:&nbsp;
+              = history.transaction_id
+              br
+              = link_to history.tran.txid, BLOCKCHAIN_TRANSACTION_URL + history.tran.txid.to_s, target: "_blank"
+              br
+              |Total value this transaction:&nbsp;
+              = history.tran.value
+              br
+              |This transaction created at:&nbsp;
+              = history.tran.tx_created_at
             td = history.fixed_campaign_id
             td = history.value
             td = history.overload
