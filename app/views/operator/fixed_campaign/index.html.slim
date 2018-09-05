@@ -41,3 +41,9 @@ table.table
           
 = paginate @histories_page
 = link_to "Export Data", export_overload_campaign_operator_fixed_campaign_index_path(format: :json, overload: params[:overload], overload_1500: params[:overload_1500]), class: "btn btn-primary"
+br
+br
+- if @first_time.present?
+  p 
+   |The first transaction that overload 1500 BTC created at:&nbsp;
+   = @first_time

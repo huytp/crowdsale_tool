@@ -4,6 +4,8 @@ class Operator::FixedCampaignController < ApplicationController
   before_action :find_histories, only: [:index, :export_overload_campaign]
   def index
     @histories_page = @histories.page(params[:page])
+    first_transaction_id = History.where(overload: true, fixed_campaign_id: OVERLOAD_CAMPAIGN_ID).order(created_at: :ASC).first&.transaction_id
+    @first_time = Transaction.find_by_id(first_transaction_id)&.tx_created_at
   end
 
   def campaign
